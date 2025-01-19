@@ -1,0 +1,87 @@
+[
+    {
+        "id":1,
+        "name":"Acts of God",
+        "price":0,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/files/81jjE3c-G6L._SL1500_360x.jpg?v=1703061745"
+    },
+    {
+        "id":2,
+        "name":"Ikigai",
+        "price":0,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/9781786330895_360x.jpg?v=1680196201"
+    },
+    {
+        "id":3,
+        "name":"Atomic Habits",
+        "price":0,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/9781847941831_360x.jpg?v=1680197451"
+    },
+    {
+        "id":4,
+        "name":"The Psychology Of Money",
+        "price":0,
+        "category":"free",
+        "image":"https://www.crossword.in/cdn/shop/products/9789390166268_1_460x@2x.jpg?v=1663936263"
+    },
+    {
+        "id":5,
+        "name":"The Kite Runner",
+        "price":0,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/9781408850251_360x.jpg?v=1680186715"
+    },
+    {
+        "id":6,
+        "name":"The Silent Patient",
+        "price":469,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_21bc4238-d0b3-4321-816e-69bf0c3a5865_360x.jpg?v=1678458341"
+    },
+    {
+        "id":7,
+        "name":"Twisted Games",
+        "price":0,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_68c1bc23-4fd3-4143-b680-001a2d592bf4_360x.jpg?v=1678843857"
+    },
+    {
+        "id":8,
+        "name":"Verity",
+        "price":399,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_c95532ea-237d-426a-8f07-b1e5c20336c1_360x.jpg?v=1678842264"
+    },
+    {
+        "id":9,
+        "name":"The Silent Patient",
+        "price":469,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_21bc4238-d0b3-4321-816e-69bf0c3a5865_360x.jpg?v=1678458341"
+    },
+    {
+        "id":10,
+        "name":"Twisted Games",
+        "price":299,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_68c1bc23-4fd3-4143-b680-001a2d592bf4_360x.jpg?v=1678843857"
+    },
+    {
+        "id":11,
+        "name":"Verity",
+        "price":399,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_c95532ea-237d-426a-8f07-b1e5c20336c1_360x.jpg?v=1678842264"
+    },
+    {
+        "id":12,
+        "name":"Verity",
+        "price":399,
+        "category":"free",
+        "image":"https://cdn.shopify.com/s/files/1/0648/3066/9017/products/getimage_c95532ea-237d-426a-8f07-b1e5c20336c1_360x.jpg?v=1678842264"
+    }
+    
+]

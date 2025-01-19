@@ -15,7 +15,7 @@ export default function BooksCard() {
     async function FetchData() {
        try {
         
-        const res = await axios.get("http://localhost:4001/")
+        const res = await axios.get("https://ebooks-store-backend.onrender.com")
         setData(res.data)
 
        } catch (error) {

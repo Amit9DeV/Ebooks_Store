@@ -14,7 +14,7 @@ export default function BooksCard_Course() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://localhost:4001/");
+        const res = await axios.get("https://ebooks-store-backend.onrender.com");
         setData(res.data);
       } catch (error) {
         console.error(error);

@@ -47,7 +47,7 @@ export default function NavBar() {
   const [active,setActive] = useState(true)
 
   return (
-    <nav className="navbar backdrop-blur-sm border-b px-4 sticky top-2 z-50">
+    <nav className="navbar backdrop-blur-xl border-b px-4 sticky top-2 z-50 shadow-md">
       <div className="navbar-start">
         <div className="dropdown">
 

@@ -2,10 +2,10 @@ import React from "react";
 
 function Card({ book }) {
   return (
-    <div className="card bg-base-100 w-72 h-[450px]   shadow-xl m-5 flex-shrink-0">
+    <div className="card border w-72 h-[400px]   shadow-xl m-5 flex-shrink-0">
       <figure>
         <img loading="lazy"
-          className="w-2/3 rounded-lg mt-8 mx-auto"
+          className="w-3/4 rounded-lg mt-8 mx-auto aspect-square object-contain "
           src={book.image}
           alt="Book"
         />
@@ -20,8 +20,8 @@ function Card({ book }) {
           <div className="badge badge-outline text-green-600 text-xl">
             ₹ {book.price}
           </div>
-          <div className="badge">
-            <button className="btn btn-success px-8">Buy</button>
+          <div className="">
+            <button className="btn border-none bg-blue-600 px-8">Buy</button>
           </div>
         </div>
       </div>

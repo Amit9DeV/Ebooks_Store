@@ -5,7 +5,7 @@ function Card({ book }) {
     <div className="card border w-72 h-[400px]   shadow-xl m-5 flex-shrink-0">
       <figure>
         <img loading="lazy"
-          className="w-3/4 rounded-lg mt-8 mx-auto aspect-square object-contain "
+          className="w-3/4 mt-8 mx-auto aspect-square object-contain "
           src={book.image}
           alt="Book"
         />

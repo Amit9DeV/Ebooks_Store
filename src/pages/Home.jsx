@@ -1,11 +1,12 @@
 import React from "react";
-import BooksCard from "../components/BooksCard";
+const BooksCard = React.lazy(()=> import("../components/BooksCard"))
+import { Image } from "lucide-react";
 
 export default function Home() {
   return (
     <>
       <div className=" px-8 flex flex-col-reverse md:flex-row pt-16 md:pt-10">
-        <div className="w-full  md:w-1/2 lg:w-1/2 ">
+        <div className="w-full  md:w-1/2 lg:w-1/2 border p-4 shadow-md">
           <div className=" space-y-4 md:space-y-12">
             <h1 className=" text-4xl font-bold pt-[10vh] pr-20 ">
               Hello Welcome here to learn something{" "}
@@ -37,7 +38,7 @@ export default function Home() {
 
         <div className="w-full  md:w-1/2 lg:w-1/2 flex items-center justify-center ">
         
-        <img className=" rounded-full  w-2/4 md:w-3/3 pt-10 " src="HomeBanner.jpg" alt="" />
+        <img className=" rounded-full  w-full md:w-2/3 pt-10 "  loading="lazy" src="./tinified/HomeBanner.jpg" alt="" />
         
         </div>
       </div>

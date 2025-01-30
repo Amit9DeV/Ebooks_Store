@@ -32,14 +32,14 @@ export default function BooksCard_Course() {
   // Handling loading and error states
   if (loading) {
     return (
-      <p className="bg-red-700 h-11 w-96 flex items-center justify-center text-white">
+      <p className="bg-red-700 h-11 w-96 flex items-center justify-center text-white rounded-lg p-14 text-2xl">
         Loading...
       </p>
     );
   }
 
   if (error) {
-    return <p className="text-red-600 text-center">Error: {error}</p>;
+    return <p className="text-red-600 text-center rounded-lg">Error: {error}</p>;
   }
 
   const settings = {

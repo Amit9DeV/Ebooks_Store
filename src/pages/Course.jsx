@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import BooksCard_Course from "../components/BookCard_Course";
+import { lazy } from "react";
+const BooksCard_Course = React.lazy(()=>import("../components/BookCard_Course"))
+
 
 export default function Course() {
   return (

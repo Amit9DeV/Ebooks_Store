@@ -33,7 +33,7 @@ export default function BooksCard() {
 
   // Handling loading and error states
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="bg-red-600 p-5 rounded-lg text-2xl text-center">Loading...</p>;
   }
 
   if (error) {

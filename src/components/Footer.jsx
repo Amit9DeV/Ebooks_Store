@@ -4,8 +4,8 @@ export default function Footer() {
   return (
     <>
     
-    <footer className="footer bg-base-200 text-base-content p-10 flex justify-around flex-col-reverse md:flex-row items-center"  >
-        <div className="footer bg-base-200 text-base-content  flex flex-wrap justify-around ">
+    <footer className="footer border bg-slate-700 text-base-content p-10 flex justify-around flex-col-reverse md:flex-row items-center"  >
+        <div className="footer  text-base-content  flex flex-wrap justify-around ">
   <nav>
     <h6 className="footer-title">Services</h6>
     <a className="link link-hover">Branding</a>

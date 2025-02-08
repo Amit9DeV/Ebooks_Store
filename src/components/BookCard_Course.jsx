@@ -7,7 +7,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function BooksCard_Course() {
-  
   const [getdata, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +14,9 @@ export default function BooksCard_Course() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("https://ebooks-store-backend.onrender.com");
+        const res = await axios.get(
+          "https://ebooks-store-backend.onrender.com"
+        );
         setData(res.data);
       } catch (error) {
         console.error(error);
@@ -39,7 +40,9 @@ export default function BooksCard_Course() {
   }
 
   if (error) {
-    return <p className="text-red-600 text-center rounded-lg">Error: {error}</p>;
+    return (
+      <p className="text-red-600 text-center rounded-lg">Error: {error}</p>
+    );
   }
 
   const settings = {

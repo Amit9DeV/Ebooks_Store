@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 const BooksCard = React.lazy(()=> import("../components/BooksCard"))
-import { Image } from "lucide-react";
+import LoadingBar from "@/components/Loading";
+
 
 export default function Home() {
+
+  const [Loading,setLoading] = useState(true);
+
+  useEffect(()=>{
+    setTimeout(()=>{
+
+      setLoading(false)
+
+    },1000)
+  },[])
+
+  if(Loading){
+    return(<LoadingBar/>)
+  }
+
   return (
     <>
       <div className=" px-8 flex flex-col-reverse md:flex-row pt-16 md:pt-10">

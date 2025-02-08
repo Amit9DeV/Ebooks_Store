@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { lazy } from "react";
 const BooksCard_Course = React.lazy(()=>import("../components/BookCard_Course"))
+import LoadingBar from "@/components/Loading";
 
 
 export default function Course() {
+
+  const [Loading,setLoading] = useState(true);
+
+  useEffect(()=>{
+
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
+
+  },[])
+
+
+ if(Loading){ return(<LoadingBar/>)}
+      
   return (
     <div className=" px-8 flex flex-col  pt-16 md:pt-10 items-center justify-center">
       <div className="pt-16 flex flex-col items-center">

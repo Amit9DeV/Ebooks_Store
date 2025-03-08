@@ -1,16 +1,34 @@
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
-import { Moon, MoveLeft, Sun } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { 
+  Moon, 
+  Sun, 
+  Search,
+  Bell,
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+  BookOpen,
+  Bookmark,
+  Settings,
+  LogOut,
+  User,
+  Home,
+  BookText,
+  Phone,
+  Info
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme-provider";
-
 import {
   Sheet,
   SheetContent,
@@ -20,200 +38,296 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+const categories = [
+  "Fiction",
+  "Non-Fiction",
+  "Science",
+  "Technology",
+  "Business",
+  "Self-Help",
+];
+
+const navigationItems = [
+  {
+    path: "/",
+    label: "Home",
+    icon: <Home className="h-4 w-4" />,
+    description: "Return to homepage"
+  },
+  {
+    path: "/Course",
+    label: "Course",
+    icon: <BookText className="h-4 w-4" />,
+    description: "Browse our courses"
+  },
+  {
+    path: "/contact",
+    label: "Contact",
+    icon: <Phone className="h-4 w-4" />,
+    description: "Get in touch with us"
+  },
+  {
+    path: "/about",
+    label: "About",
+    icon: <Info className="h-4 w-4" />,
+    description: "Learn about us"
+  }
+];
+
 const Nav = () => (
   <>
-    <li>
-      <NavLink to="/">Home</NavLink>
-    </li>
-    <li>
-      <NavLink to="/Course">Course</NavLink>
-    </li>
-    <li>
-      <NavLink to="/contact">Contact</NavLink>
-    </li>
-    <li>
-      <NavLink to="/about">About</NavLink>
-    </li>
+    {navigationItems.map((item) => (
+      <li key={item.path}>
+        <NavLink 
+          to={item.path} 
+          className={({ isActive }) => 
+            `hover:text-primary transition-colors relative group py-2 flex items-center gap-2 ${isActive ? 'text-primary' : ''}`
+          }
+          title={item.description}
+        >
+          <span className="hidden lg:block">{item.icon}</span>
+          {item.label}
+          <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+        </NavLink>
+      </li>
+    ))}
   </>
 );
 
 export default function NavBar() {
   const { register, handleSubmit } = useForm();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [cartCount, setCartCount] = useState(2); // Example cart count
+  const [notificationCount, setNotificationCount] = useState(3); // Example notification count
+  
   function onSubmit(event) {
     console.log(event);
   }
-  const { setTheme } = useTheme();
+  
+  const { setTheme, theme } = useTheme();
+
   const [active, setActive] = useState(true);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="navbar backdrop-blur-xl border-b px-4 sticky top-2 z-50 shadow-md">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <Sheet>
-            <SheetTrigger>
-              <button
-                tabIndex={0}
-                className="btn btn-ghost lg:hidden"
-                aria-label="Menu"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h8m-8 6h16"
-                  />
-                </svg>
-              </button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle></SheetTitle>
-                <SheetDescription>
-                  <ul
+    <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md' 
+        : 'bg-white dark:bg-gray-900'
+    }`}>
+      <div className="container mx-auto">
+        <div className="navbar gap-4">
+          <div className="navbar-start">
+            <div className="dropdown">
+              <Sheet>
+                <SheetTrigger>
+                  <button
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                    className="btn btn-ghost lg:hidden hover:bg-gray-100 dark:hover:bg-gray-800"
+                    aria-label="Menu"
                   >
-                    <Nav />
-                  </ul>
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
-        </div>
-        <a href="/" className="btn btn-ghost text-xl">
-          BookStore
-        </a>
-      </div>
-
-      <div className="hidden md:block ">
-        <label className="input input-sm input-bordered flex items-center gap-2">
-          <input type="text" className="grow" placeholder="Search" />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            className="h-4 w-4 opacity-70"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </label>
-      </div>
-
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <Nav />
-        </ul>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setTheme("light")}>
-              Light
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("dark")}>
-              Dark
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("system")}>
-              System
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className=" navbar-end ">
-        <button
-          className="btn w-14 bg-slate-800 h-1 md:w-24 "
-          onClick={() => document.getElementById("my_modal_1").showModal()}
-        >
-          Login
-        </button>
-
-        {active && (
-          <dialog id="my_modal_1" className="modal">
-            <div className="modal-box">
-              <div className="p-5">
-                <form onSubmit={handleSubmit(onSubmit)} action="">
-                  <label className="input input-bordered flex items-center gap-2 mb-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      className="h-4 w-4 opacity-70"
-                    >
-                      <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                      <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                    </svg>
-                    <input
-                      {...register("Email")}
-                      type="text"
-                      className="grow"
-                      placeholder="Email"
-                    />
-                  </label>
-                  <label className="input input-bordered flex items-center gap-2 mt-10">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      className="h-4 w-4 opacity-70"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <input
-                      {...register("password")}
-                      type="password"
-                      className="grow"
-                      placeholder="password"
-                    />
-                  </label>
-
-                  <div className="flex items-center justify-between mt-7">
-                    <button type="submit" className="btn btn-success ">
-                      Login
-                    </button>
-                    <label className="text-white">
-                      Not Register /{" "}
-                      <NavLink
-                        onClick={() => setActive(false)}
-                        className="text-blue-700"
-                        to="Register"
-                      >
-                        SignUp
-                      </NavLink>
-                    </label>
-                  </div>
-                </form>
-              </div>
-
-              <div className="modal-action">
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn">Close</button>
-                </form>
-              </div>
+                    <Menu className="h-5 w-5" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                  <SheetHeader>
+                    <SheetTitle className="text-2xl font-bold flex items-center gap-2">
+                      <BookOpen className="h-6 w-6" />
+                      BookStore
+                    </SheetTitle>
+                    <SheetDescription>
+                      <ul className="menu menu-lg gap-2 mt-4">
+                        {navigationItems.map((item) => (
+                          <li key={item.path}>
+                            <NavLink
+                              to={item.path}
+                              className={({ isActive }) =>
+                                `flex items-center gap-3 py-2 ${isActive ? 'text-primary' : ''}`
+                              }
+                              onClick={() => document.querySelector('button[aria-label="Menu"]').click()}
+                            >
+                              {item.icon}
+                              <span>{item.label}</span>
+                              <span className="text-sm text-gray-500 dark:text-gray-400 ml-auto">
+                                {item.description}
+                              </span>
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
             </div>
-          </dialog>
-        )}
+            
+            <a href="/" className="btn btn-ghost gap-2 text-xl font-bold tracking-tight hover:bg-transparent">
+              <BookOpen className="h-6 w-6 text-primary" />
+              <span className="hidden sm:inline">BookStore</span>
+            </a>
+
+            {/* Categories Dropdown */}
+            <div className="hidden lg:block ml-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="btn btn-ghost gap-2">
+                  Categories
+                  <ChevronDown className="h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  {categories.map((category) => (
+                    <DropdownMenuItem key={category} className="cursor-pointer">
+                      {category}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          <div className="navbar-center hidden lg:flex items-center space-x-1">
+            <ul className="menu menu-horizontal px-1 space-x-2">
+              <Nav />
+            </ul>
+          </div>
+
+          <div className="navbar-end gap-2">
+            {/* Search Bar */}
+            <div className={`${showSearch ? 'flex' : 'hidden md:flex'} items-center max-w-xs w-full relative group`}>
+              <input
+                type="text"
+                placeholder="Search books..."
+                className="input input-bordered w-full pl-10 pr-4 h-10 bg-gray-50 dark:bg-gray-800 focus:ring-2 ring-primary/20"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+            </div>
+            
+            <button 
+              className="btn btn-ghost btn-circle md:hidden"
+              onClick={() => setShowSearch(!showSearch)}
+            >
+              {showSearch ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </button>
+
+            {/* Theme Toggle */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="mt-2">
+                <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
+                  <Sun className="h-4 w-4 mr-2" /> Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
+                  <Moon className="h-4 w-4 mr-2" /> Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer">
+                  <Settings className="h-4 w-4 mr-2" />
+                  System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Notifications */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-gray-100 dark:hover:bg-gray-800 relative">
+                  <Bell className="h-5 w-5" />
+                  {notificationCount > 0 && (
+                    <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
+                      {notificationCount}
+                    </span>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="mt-2 w-80">
+                <div className="px-4 py-3 border-b">
+                  <h3 className="font-semibold">Notifications</h3>
+                </div>
+                <div className="py-2">
+                  <p className="px-4 py-2 text-sm text-gray-500">No new notifications</p>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Cart */}
+            <Button variant="ghost" size="icon" className="hover:bg-gray-100 dark:hover:bg-gray-800 relative">
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-white text-xs flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+
+            {/* User Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800 gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <span className="hidden sm:inline">Account</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem className="cursor-pointer">
+                  <User className="h-4 w-4 mr-2" /> Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Bookmark className="h-4 w-4 mr-2" /> My Library
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Settings className="h-4 w-4 mr-2" /> Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer text-red-600 dark:text-red-400">
+                  <LogOut className="h-4 w-4 mr-2" /> Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
+
+      {/* Add these styles to your CSS */}
+      <style jsx>{`
+        .navbar {
+          height: 4rem;
+        }
+
+        @media (min-width: 1024px) {
+          .navbar {
+            height: 5rem;
+          }
+        }
+
+        .menu-item-active {
+          color: var(--primary);
+        }
+
+        .menu-item-active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: var(--primary);
+        }
+      `}</style>
     </nav>
   );
 }

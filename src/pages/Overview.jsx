@@ -11,7 +11,9 @@ import {
   User,
   Languages,
   BookText,
-  Building2
+  Building2,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../features/cart/cartSlice';
@@ -24,6 +26,7 @@ export default function Overview() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [readMode, setReadMode] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -57,6 +60,21 @@ export default function Overview() {
       navigator.clipboard.writeText(window.location.href);
       alert('Link copied to clipboard!');
     }
+  };
+
+  const renderDescription = (description) => {
+    const formattedDesc = description
+      .replace(/<p>/g, '')
+      .replace(/<\/p>/g, '\n')
+      .replace(/<i>/g, '')
+      .replace(/<\/i>/g, '')
+      .replace(/\n\s*\n/g, '\n')
+      .trim();
+    
+    if (!showFullDescription && formattedDesc.length > 300) {
+      return { __html: formattedDesc.substring(0, 300) + '...' };
+    }
+    return { __html: formattedDesc };
   };
 
   if (loading) {
@@ -109,9 +127,10 @@ export default function Overview() {
               </button>
             </div>
             <div className="bg-card p-8 rounded-lg shadow-lg">
-              <p className="text-lg leading-relaxed whitespace-pre-line">
-                {book.description}
-              </p>
+              <div 
+                className="text-lg leading-relaxed prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={renderDescription(book.description)}
+              />
             </div>
           </div>
         ) : (
@@ -209,9 +228,30 @@ export default function Overview() {
 
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">Description</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {book.description}
-                </p>
+                <div className="space-y-4">
+                  <div 
+                    className="prose prose-sm max-w-none text-muted-foreground"
+                    dangerouslySetInnerHTML={renderDescription(book.description)}
+                  />
+                  {book.description.length > 300 && (
+                    <button
+                      onClick={() => setShowFullDescription(!showFullDescription)}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                    >
+                      {showFullDescription ? (
+                        <>
+                          Show Less
+                          <ChevronUp className="w-4 h-4" />
+                        </>
+                      ) : (
+                        <>
+                          Read More
+                          <ChevronDown className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
 
               {book.categories.length > 0 && (

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Slider from "react-slick";
 import axios from "axios";
 import Card from "./Card";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 export default function BooksCard_Course() {
   const [getdata, setData] = useState([]);
@@ -45,21 +42,13 @@ export default function BooksCard_Course() {
     );
   }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
-      <Slider {...settings}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {filteredBooks.map((item) => (
           <Card key={item.id || uuidv4()} book={item} />
         ))}
-      </Slider>
+      </div>
     </div>
   );
 }

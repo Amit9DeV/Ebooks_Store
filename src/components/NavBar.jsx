@@ -71,6 +71,12 @@ const navigationItems = [
     label: "About",
     icon: <Info className="h-4 w-4" />,
     description: "Learn about us"
+  },
+  {
+    path: "/Cart",
+    label: "Cart",
+    icon: <ShoppingCart className="h-4 w-4" />,
+    description: "View your cart"
   }
 ];
 
@@ -252,49 +258,48 @@ export default function NavBar() {
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="mt-2 w-80">
-                <div className="px-4 py-3 border-b">
-                  <h3 className="font-semibold">Notifications</h3>
-                </div>
-                <div className="py-2">
-                  <p className="px-4 py-2 text-sm text-gray-500">No new notifications</p>
-                </div>
+              <DropdownMenuContent align="end" className="mt-2">
+                <DropdownMenuItem className="cursor-pointer">
+                  <Bookmark className="h-4 w-4 mr-2" />
+                  New Bookmarks
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Bell className="h-4 w-4 mr-2" />
+                  Alerts
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Cart */}
-            <Button variant="ghost" size="icon" className="hover:bg-gray-100 dark:hover:bg-gray-800 relative">
+            {/* Cart Icon */}
+            <NavLink to="/cart" className="btn btn-ghost btn-circle relative">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-white text-xs flex items-center justify-center">
+                <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
-            </Button>
+            </NavLink>
 
-            {/* User Menu */}
+            {/* User Profile Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-gray-800 gap-2">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="h-5 w-5 text-primary" />
-                  </div>
-                  <span className="hidden sm:inline">Account</span>
+                <Button variant="ghost" size="icon" className="hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="mt-2">
                 <DropdownMenuItem className="cursor-pointer">
-                  <User className="h-4 w-4 mr-2" /> Profile
+                  <User className="h-4 w-4 mr-2" />
+                  Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer">
-                  <Bookmark className="h-4 w-4 mr-2" /> My Library
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  <Settings className="h-4 w-4 mr-2" /> Settings
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-red-600 dark:text-red-400">
-                  <LogOut className="h-4 w-4 mr-2" /> Log out
+                <DropdownMenuItem className="cursor-pointer">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

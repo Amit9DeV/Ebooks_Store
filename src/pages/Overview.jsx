@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookById } from '../services/api';
+import { getBookById, getBookContent } from '../services/api';
 import { 
   BookOpen, 
   Star, 
@@ -13,10 +13,14 @@ import {
   BookText,
   Building2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Bookmark,
+  Loader2
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../features/cart/cartSlice';
+import EbookReader from '../components/EbookReader';
+import { toast } from 'react-toastify';
 
 export default function Overview() {
   const { id } = useParams();
@@ -27,6 +31,9 @@ export default function Overview() {
   const [error, setError] = useState(null);
   const [readMode, setReadMode] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [lastReadPage, setLastReadPage] = useState(1);
+  const [bookContent, setBookContent] = useState('');
+  const [loadingContent, setLoadingContent] = useState(false);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -43,10 +50,17 @@ export default function Overview() {
     };
 
     fetchBookDetails();
+    
+    // Try to get last read page from localStorage
+    const savedPage = localStorage.getItem(`book_${id}_page`);
+    if (savedPage) {
+      setLastReadPage(parseInt(savedPage));
+    }
   }, [id]);
 
   const handleAddToCart = () => {
     dispatch(addToCart(book));
+    toast.success('Book added to cart!');
   };
 
   const handleShare = () => {
@@ -58,7 +72,7 @@ export default function Overview() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      toast.info('Link copied to clipboard!');
     }
   };
 
@@ -75,6 +89,44 @@ export default function Overview() {
       return { __html: formattedDesc.substring(0, 300) + '...' };
     }
     return { __html: formattedDesc };
+  };
+  
+  // Save reading progress to localStorage
+  const handleCloseReader = (currentPage) => {
+    localStorage.setItem(`book_${id}_page`, currentPage.toString());
+    setLastReadPage(currentPage);
+    setReadMode(false);
+  };
+
+  // Check if this book is in the user's library
+  const isInLibrary = () => {
+    const libraryBooks = JSON.parse(localStorage.getItem('library') || '[]');
+    return libraryBooks.some(bookId => bookId === id);
+  };
+
+  // Add the book to the user's library
+  const addToLibrary = () => {
+    const libraryBooks = JSON.parse(localStorage.getItem('library') || '[]');
+    if (!libraryBooks.includes(id)) {
+      libraryBooks.push(id);
+      localStorage.setItem('library', JSON.stringify(libraryBooks));
+      toast.success('Book added to your library!');
+    }
+  };
+
+  // Fetch full book content when entering read mode
+  const handleStartReading = async () => {
+    try {
+      setLoadingContent(true);
+      const content = await getBookContent(id);
+      setBookContent(content);
+      setReadMode(true);
+    } catch (err) {
+      console.error('Error fetching book content:', err);
+      toast.error('Failed to load book content. Please try again.');
+    } finally {
+      setLoadingContent(false);
+    }
   };
 
   if (loading) {
@@ -105,50 +157,58 @@ export default function Overview() {
 
   return (
     <div className="min-h-screen pt-20 bg-gradient-to-b from-background to-background/50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="btn btn-ghost gap-2 mb-8 hover:bg-transparent"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Back
-        </button>
+      {readMode ? (
+        <EbookReader 
+          content={bookContent}
+          title={book.name}
+          author={book.author}
+          coverImage={book.image}
+          onClose={handleCloseReader}
+        />
+      ) : (
+        <div className="container mx-auto px-4 py-8">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="btn btn-ghost gap-2 mb-8 hover:bg-transparent"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            Back
+          </button>
 
-        {readMode ? (
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold">{book.name}</h1>
-              <button
-                onClick={() => setReadMode(false)}
-                className="btn btn-outline"
-              >
-                Exit Reading Mode
-              </button>
-            </div>
-            <div className="bg-card p-8 rounded-lg shadow-lg">
-              <div 
-                className="text-lg leading-relaxed prose prose-sm max-w-none"
-                dangerouslySetInnerHTML={renderDescription(book.description)}
-              />
-            </div>
-          </div>
-        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Book Image */}
             <div className="flex flex-col items-center">
-              <img
-                src={book.image}
-                alt={book.name}
-                className="w-full max-w-md rounded-lg shadow-2xl mb-6"
-              />
-              <div className="flex gap-4">
+              <div className="relative w-full max-w-md mb-6">
+                <img
+                  src={book.image}
+                  alt={book.name}
+                  className="w-full rounded-lg shadow-2xl"
+                />
+                {lastReadPage > 1 && (
+                  <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium shadow-lg animate-pulse">
+                    Last Read: Page {lastReadPage}
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex gap-4 flex-wrap justify-center">
                 <button
-                  onClick={() => setReadMode(true)}
+                  onClick={handleStartReading}
                   className="btn btn-primary gap-2"
+                  disabled={loadingContent}
                 >
-                  <BookOpen className="w-5 h-5" />
-                  Read Book
+                  {loadingContent ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <BookOpen className="w-5 h-5" />
+                      Read Book
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={handleAddToCart}
@@ -156,6 +216,14 @@ export default function Overview() {
                 >
                   <ShoppingCart className="w-5 h-5" />
                   Add to Cart
+                </button>
+                <button
+                  onClick={addToLibrary}
+                  className="btn btn-outline gap-2"
+                  disabled={isInLibrary()}
+                >
+                  <Bookmark className="w-5 h-5" />
+                  {isInLibrary() ? 'In Your Library' : 'Add to Library'}
                 </button>
                 <button
                   onClick={handleShare}
@@ -271,8 +339,8 @@ export default function Overview() {
               )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 } 

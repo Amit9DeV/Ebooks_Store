@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Overview from './pages/Overview';
 import SearchResults from './pages/SearchResults';
 import BookDetails from './pages/BookDetails';
+import Library from './pages/Library';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/course" element={<Course />} />
+          <Route path="/library" element={<Library />} />
         </Routes>
       </Layout>
       <Footer />

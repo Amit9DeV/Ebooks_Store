@@ -18,7 +18,8 @@ import {
   Home,
   BookText,
   Phone,
-  Info
+  Info,
+  Library
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,6 +54,12 @@ const navigationItems = [
     label: "Home",
     icon: <Home className="h-4 w-4" />,
     description: "Return to homepage"
+  },
+  {
+    path: "/library",
+    label: "Library",
+    icon: <Library className="h-4 w-4" />,
+    description: "Access your books"
   },
   {
     path: "/Course",
@@ -291,6 +298,12 @@ export default function NavBar() {
                 <DropdownMenuItem className="cursor-pointer">
                   <User className="h-4 w-4 mr-2" />
                   Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <NavLink to="/library">
+                    <Library className="h-4 w-4 mr-2" />
+                    My Library
+                  </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer">
                   <Settings className="h-4 w-4 mr-2" />

@@ -195,6 +195,16 @@ export default function Home() {
                   <BookOpen className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
+              <script type="text/javascript">
+	atOptions = {
+		'key' : 'e91df4237631f3e78b3e73acdc4980b0',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/e91df4237631f3e78b3e73acdc4980b0/invoke.js"></script>
 
               {/* Stats */}
               <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center lg:text-left animate-fade-in delay-400">

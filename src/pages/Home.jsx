@@ -194,7 +194,7 @@ export default function Home() {
                   View Courses
                   <BookOpen className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-     
+              </div>
 
               {/* Stats */}
               <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center lg:text-left animate-fade-in delay-400">
